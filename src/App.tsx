@@ -128,9 +128,9 @@ export default function App() {
             Reset
           </Button>
         </div>
-
-        <canvas id={'canvas'}/>
       </div>
+
+      <canvas id={'canvas'} className={'mx-auto mt-5'}/>
 
       <ErrorAlert error={error}/>
     </div>
