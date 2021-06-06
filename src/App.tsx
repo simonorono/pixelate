@@ -103,7 +103,7 @@ export default function App() {
         <p>1. Select your image (it won't be uploaded to any server):</p>
 
         <input
-          className={'block mx-auto border p-2 w-80'}
+          className={'block mx-auto border border-black bg-white p-2 w-80'}
           type={'file'}
           onChange={loadFile}
         />
@@ -111,7 +111,7 @@ export default function App() {
         <p>2. Set the sampling size (how big the "pixels" will be):</p>
 
         <input
-          className={'block mx-auto border p-2 w-80'}
+          className={'block mx-auto border border-black p-2 w-80'}
           type={'number'}
           value={sample}
           min={1} // slow!
