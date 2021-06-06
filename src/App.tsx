@@ -9,7 +9,7 @@ const DEFAULT_CALLBACK = () => {
 }
 
 export default function App() {
-  const [sample, setSample] = useState('10')
+  const [sample, setSample] = useState('10') // sensible default
   const [error, setError] = useState('')
   const [intervalId, setIntervalId] = useState(0)
   const [imageDataUrl, setImageDataUrl] = useState('')
@@ -95,6 +95,13 @@ export default function App() {
     })
   }
 
+  const download = () => {
+    const a = document.createElement('a')
+    a.href = (document.getElementById('canvas') as HTMLCanvasElement).toDataURL()
+    a.download = 'result'
+    a.click()
+  }
+
   return (
     <div className={'min-h-screen'}>
       <Navbar/>
@@ -126,6 +133,9 @@ export default function App() {
           </Button>
           <Button onClick={() => loadCanvas(imageDataUrl)}>
             Reset
+          </Button>
+          <Button onClick={download}>
+            Download
           </Button>
         </div>
       </div>
