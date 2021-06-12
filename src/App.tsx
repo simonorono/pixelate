@@ -103,10 +103,10 @@ export default function App() {
   }
 
   return (
-    <div className={'min-h-screen'}>
+    <div className='min-h-screen'>
       <Navbar/>
 
-      <div className={'mx-auto max-w-screen-lg mt-4 space-y-4 p-2 sm:p-0'}>
+      <div className='mx-auto max-w-screen-lg min-h-screen bg-white pt-4 space-y-4 p-4'>
         <p>1. Select your image (it won't be uploaded to any server):</p>
 
         <input
@@ -138,9 +138,9 @@ export default function App() {
             Download
           </Button>
         </div>
-      </div>
 
-      <canvas id={'canvas'} className={'mx-auto mt-5'}/>
+        <canvas id={'canvas'} className={'mx-auto mt-5'}/>
+      </div>
 
       <ErrorAlert error={error}/>
     </div>
