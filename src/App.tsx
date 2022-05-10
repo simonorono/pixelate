@@ -21,8 +21,7 @@ import ErrorAlert from './components/ErrorAlert'
 import Navbar from './components/Navbar'
 
 const ERROR_TIMEOUT = 5000
-const DEFAULT_CALLBACK = () => {
-}
+const DEFAULT_CALLBACK = () => {}
 
 export default function App() {
   const [sample, setSample] = useState('10') // sensible default
@@ -41,9 +40,12 @@ export default function App() {
     setIntervalId(setInterval(() => setError(''), ERROR_TIMEOUT))
   }
 
-  type loadCanvasCallback = () => void|null
+  type loadCanvasCallback = () => void | null
 
-  const loadCanvas = (dataUrl: string, callback: loadCanvasCallback = DEFAULT_CALLBACK) => {
+  const loadCanvas = (
+    dataUrl: string,
+    callback: loadCanvasCallback = DEFAULT_CALLBACK
+  ) => {
     const image = new Image()
     image.src = dataUrl
 
@@ -66,7 +68,7 @@ export default function App() {
       return
     }
 
-    if (!file.type.match('image\/.*')) {
+    if (!file.type.match('image/.*')) {
       showError('Please select an image')
       return
     }
@@ -98,13 +100,20 @@ export default function App() {
       const canvas = document.getElementById('canvas') as HTMLCanvasElement
       const context = canvas.getContext('2d')!
 
-      let pixelArray = context.getImageData(0, 0, canvas.width, canvas.height).data
+      let pixelArray = context.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      ).data
 
       for (let y = 0; y < canvas.height; y += sampleSize) {
         for (let x = 0; x < canvas.width; x += sampleSize) {
-          const p = (x + (y * canvas.width)) * 4;
+          const p = (x + y * canvas.width) * 4
 
-          context.fillStyle = `rgba(${pixelArray[p]}, ${pixelArray[p + 1]}, ${pixelArray[p + 2]}, ${pixelArray[p + 3]})`
+          context.fillStyle = `rgba(${pixelArray[p]}, ${pixelArray[p + 1]}, ${
+            pixelArray[p + 2]
+          }, ${pixelArray[p + 3]})`
           context.fillRect(x, y, sampleSize, sampleSize)
         }
       }
@@ -113,20 +122,22 @@ export default function App() {
 
   const download = () => {
     const a = document.createElement('a')
-    a.href = (document.getElementById('canvas') as HTMLCanvasElement).toDataURL()
+    a.href = (
+      document.getElementById('canvas') as HTMLCanvasElement
+    ).toDataURL()
     a.download = 'result'
     a.click()
   }
 
   return (
-    <div className='min-h-screen'>
-      <Navbar/>
+    <div className="min-h-screen">
+      <Navbar />
 
-      <div className='mx-auto max-w-screen-lg min-h-screen bg-white pt-4 space-y-4 p-4'>
+      <div className="mx-auto min-h-screen max-w-screen-lg space-y-4 bg-white p-4 pt-4">
         <p>1. Select your image (it won't be uploaded to any server):</p>
 
         <input
-          className={'block mx-auto border border-black bg-white p-2 w-80'}
+          className={'mx-auto block w-80 border border-black bg-white p-2'}
           type={'file'}
           onChange={loadFile}
         />
@@ -134,7 +145,7 @@ export default function App() {
         <p>2. Set the sampling size (how big the "pixels" will be):</p>
 
         <input
-          className={'block mx-auto border border-black p-2 w-80'}
+          className={'mx-auto block w-80 border border-black p-2'}
           type={'number'}
           value={sample}
           min={1} // slow!
@@ -144,21 +155,15 @@ export default function App() {
         <p>3. Click this button to pixelate your image:</p>
 
         <div className={'flex justify-center space-x-5'}>
-          <Button onClick={pixelate}>
-            Pixelate
-          </Button>
-          <Button onClick={() => loadCanvas(imageDataUrl)}>
-            Reset
-          </Button>
-          <Button onClick={download}>
-            Download
-          </Button>
+          <Button onClick={pixelate}>Pixelate</Button>
+          <Button onClick={() => loadCanvas(imageDataUrl)}>Reset</Button>
+          <Button onClick={download}>Download</Button>
         </div>
 
-        <canvas id={'canvas'} className={'mx-auto mt-5'}/>
+        <canvas id={'canvas'} className={'mx-auto mt-5'} />
       </div>
 
-      <ErrorAlert error={error}/>
+      <ErrorAlert error={error} />
     </div>
   )
 }

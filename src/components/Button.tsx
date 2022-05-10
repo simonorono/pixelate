@@ -17,7 +17,7 @@
 import React, { ReactNode } from 'react'
 
 interface Props {
-  onClick?: () => void,
+  onClick?: () => void
   children: ReactNode
 }
 
@@ -28,8 +28,8 @@ export default function Button(props: Props) {
     <button
       type="button"
       className={[
-        "px-6 py-3 border shadow-sm font-medium rounded-md bg-white text-amber-700",
-        "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500",
+        'rounded-md border bg-white px-6 py-3 font-medium text-amber-700 shadow-sm',
+        'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2',
       ].join(' ')}
       onClick={() => onClick && onClick()}
     >
