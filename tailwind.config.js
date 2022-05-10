@@ -1,16 +1,6 @@
-const colors = require('tailwindcss/colors')
-
 module.exports = {
-  purge: ['./index.html', './src/**/*.{ts,tsx}'],
-  mode: 'jit',
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    colors,
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class', // or 'media' or 'class'
   plugins: [
     require('@tailwindcss/forms')
   ],
