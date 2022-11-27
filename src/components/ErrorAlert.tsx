@@ -16,7 +16,7 @@
 
 import React, { Fragment, useState } from 'react'
 import { Transition } from '@headlessui/react'
-import { ExclamationCircleIcon } from '@heroicons/react/solid'
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 
 interface Props {
   error: string
