@@ -17,19 +17,23 @@
 import React, { ReactNode } from 'react'
 
 interface Props {
-  onClick?: () => void
   children: ReactNode
+  disabled?: boolean
+  onClick?: () => void
 }
 
 export default function Button(props: Props) {
-  const { children, onClick } = props
+  const { children, disabled, onClick } = props
 
   return (
     <button
       type="button"
+      disabled={disabled || false}
       className={[
-        'rounded-md border bg-white px-6 py-3 font-medium text-amber-700 shadow-sm',
-        'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2',
+        disabled
+          ? 'cursor-wait bg-neutral-300 text-black'
+          : 'bg-white text-amber-700',
+        'rounded-md border px-6 py-3 font-medium shadow-sm',
       ].join(' ')}
       onClick={() => onClick && onClick()}
     >

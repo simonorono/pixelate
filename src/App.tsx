@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useRef, useState } from 'react'
 
 import Button from './components/Button'
 import ErrorAlert from './components/ErrorAlert'
@@ -28,6 +28,7 @@ export default function App() {
   const [error, setError] = useState('')
   const [intervalId, setIntervalId] = useState(0)
   const [imageDataUrl, setImageDataUrl] = useState('')
+  const [processing, setIfProcessing] = useState(false)
 
   const showError = (error: string) => {
     setError(error)
@@ -96,6 +97,8 @@ export default function App() {
       return
     }
 
+    setIfProcessing(true)
+
     loadCanvas(imageDataUrl, () => {
       const canvas = document.getElementById('canvas') as HTMLCanvasElement
       const context = canvas.getContext('2d')!
@@ -117,6 +120,8 @@ export default function App() {
           context.fillRect(x, y, sampleSize, sampleSize)
         }
       }
+
+      setIfProcessing(false)
     })
   }
 
@@ -138,8 +143,8 @@ export default function App() {
 
         <input
           className={'mx-auto block w-80 border border-black bg-white p-2'}
-          type={'file'}
           onChange={loadFile}
+          type={'file'}
         />
 
         <p>2. Set the sampling size (how big the "pixels" will be):</p>
@@ -155,9 +160,18 @@ export default function App() {
         <p>3. Click this button to pixelate your image:</p>
 
         <div className={'flex justify-center space-x-5'}>
-          <Button onClick={pixelate}>Pixelate</Button>
-          <Button onClick={() => loadCanvas(imageDataUrl)}>Reset</Button>
-          <Button onClick={download}>Download</Button>
+          <Button disabled={processing} onClick={pixelate}>
+            Pixelate
+          </Button>
+          <Button
+            disabled={processing}
+            onClick={() => loadCanvas(imageDataUrl)}
+          >
+            Reset
+          </Button>
+          <Button disabled={processing} onClick={download}>
+            Download
+          </Button>
         </div>
 
         <canvas id={'canvas'} className={'mx-auto mt-5'} />
