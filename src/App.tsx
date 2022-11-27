@@ -23,12 +23,19 @@ import Navbar from './components/Navbar'
 const ERROR_TIMEOUT = 5000
 const DEFAULT_CALLBACK = () => {}
 
+const ERROR_INVALID_FILE = 'Invalid file'
+const ERROR_NOT_IMAGE = 'Please select an image'
+const ERROR_SAMPLE_NOT_NUMBER =
+  'Sample must be a positive number with no decimals'
+
 export default function App() {
   const [sample, setSample] = useState('10') // sensible default
   const [error, setError] = useState('')
   const [intervalId, setIntervalId] = useState(0)
   const [imageDataUrl, setImageDataUrl] = useState('')
   const [processing, setIfProcessing] = useState(false)
+
+  const fileInput = useRef(null as HTMLInputElement | null)
 
   const showError = (error: string) => {
     setError(error)
@@ -65,12 +72,13 @@ export default function App() {
     const file = event.target.files?.item(0)
 
     if (!file) {
-      showError('Invalid file')
+      showError(ERROR_INVALID_FILE)
       return
     }
 
     if (!file.type.match('image/.*')) {
-      showError('Please select an image')
+      showError(ERROR_NOT_IMAGE)
+      event.target.value = ''
       return
     }
 
@@ -86,14 +94,19 @@ export default function App() {
 
   const pixelate = () => {
     if (!sample.match('\\d+')) {
-      showError('Sample must be an integer number')
+      showError(ERROR_SAMPLE_NOT_NUMBER)
       return
     }
 
     const sampleSize = Number(sample)
 
     if (sampleSize <= 0) {
-      showError('Sample must be higher than 0')
+      showError(ERROR_SAMPLE_NOT_NUMBER)
+      return
+    }
+
+    if (!fileInput.current?.files?.length) {
+      showError(ERROR_NOT_IMAGE)
       return
     }
 
@@ -144,6 +157,7 @@ export default function App() {
         <input
           className={'mx-auto block w-80 border border-black bg-white p-2'}
           onChange={loadFile}
+          ref={fileInput}
           type={'file'}
         />
 
