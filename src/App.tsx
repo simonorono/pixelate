@@ -188,7 +188,7 @@ export default function App() {
           </Button>
         </div>
 
-        <canvas id={'canvas'} className={'mx-auto mt-5'} />
+        <canvas id={'canvas'} className="mx-auto max-w-full mt-5" />
       </div>
 
       <ErrorAlert error={error} />
